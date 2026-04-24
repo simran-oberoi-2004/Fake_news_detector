@@ -636,3 +636,22 @@ ls -la app/models/
 - [ ] A/B testing
 - [ ] Advanced monitoring
 - [ ] Auto-scaling
+
+---
+
+🤝 Contributing
+
+Contributions are welcome! Feel free to fork the repository and submit pull requests.
+
+---
+
+📜 License
+
+This project is licensed under the MIT License.
+
+---
+
+👤 Author
+
+Simran Oberoi
+Aspiring Software Engineer | Focused on building scalable and user-friendly applications
