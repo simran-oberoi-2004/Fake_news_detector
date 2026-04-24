@@ -37,7 +37,7 @@ export function Layout() {
           <div className="flex items-center gap-3.5">
             <div className="relative">
               <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-tr from-teal-400/50 to-cyan-400/40 opacity-60 blur" />
-              <div className="relative flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200/80 bg-white shadow-card">
+              <div className="relative flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200/80 bg-white shadow-md">
                 <Sparkles className="h-6 w-6 text-teal-600" />
               </div>
             </div>

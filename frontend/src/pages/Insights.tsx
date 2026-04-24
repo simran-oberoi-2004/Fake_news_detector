@@ -34,7 +34,7 @@ const steps = [
 export function Insights() {
   return (
     <div className="space-y-16 pb-8">
-      <section className="relative overflow-hidden rounded-3xl border border-slate-200/90 bg-gradient-to-br from-white via-slate-50/90 to-teal-50/40 p-8 shadow-card sm:p-12">
+      <section className="relative overflow-hidden rounded-3xl border border-slate-200/90 bg-gradient-to-br from-white via-slate-50/90 to-teal-50/40 p-8 shadow-md sm:p-12">
         <div
           className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-teal-200/40 blur-3xl"
           aria-hidden
@@ -55,7 +55,7 @@ export function Insights() {
           </p>
           <Link
             to="/"
-            className="btn-primary mt-8 inline-flex shadow-glow"
+            className="btn-primary mt-8 inline-flex"
           >
             Run an analysis
             <ArrowRight className="h-4 w-4" />

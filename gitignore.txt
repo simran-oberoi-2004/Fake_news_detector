@@ -159,8 +159,9 @@ cython_debug/
 #.idea/
 
 # Project specific ignores
-# Large model files
-app/models/
+# Large model files (use root .gitignore; Git only reads .gitignore)
+app/models/*
+!app/models/.gitkeep
 *.pkl
 *.bin
 *.safetensors
