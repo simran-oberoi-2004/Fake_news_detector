@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply min-h-screen font-body text-slate-800 antialiased;
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 45%, #eef6f4 100%);
+  }
+  ::selection {
+    @apply bg-teal-200/80 text-slate-900;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply rounded-2xl border border-slate-200/80 bg-white shadow-card;
+  }
+  .glass-panel-inset {
+    @apply border border-slate-200 bg-slate-50/80 shadow-inner;
+  }
+  .text-gradient {
+    @apply bg-gradient-to-r from-teal-600 via-cyan-600 to-indigo-600 bg-clip-text text-transparent;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-600 px-5 py-3.5 text-sm font-semibold text-white shadow-glow transition duration-200 hover:from-teal-600 hover:to-cyan-700 hover:shadow-md active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .input-field {
+    @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200;
+  }
+}
+
+@layer utilities {
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+  }
+}

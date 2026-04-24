@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import requests
-from static.data import load_liar_dataset, preprocess_liar
+from data import load_liar_dataset, preprocess_liar
 
 def test_data():
     print("Testing data loading...")

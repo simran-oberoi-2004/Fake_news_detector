@@ -3,6 +3,7 @@ transformers
 scikit-learn
 pandas
 numpy
+tqdm
 fastapi
 uvicorn
 flask
@@ -11,4 +12,6 @@ pydantic
 psutil
 accelerate
 newspaper3k
+# lxml 5+ moved lxml.html.clean; newspaper3k still needs the compatibility package
+lxml_html_clean
 beautifulsoup4

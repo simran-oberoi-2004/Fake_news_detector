@@ -1,0 +1,20 @@
+{
+  "notes": "Update after training; defaults align with project synopsis.",
+  "last_training": "2026-04-24T16:52:27.507367+00:00",
+  "liar": {
+    "source": "PolitiFact (LIAR benchmark)"
+  },
+  "test_eval": {
+    "baseline": {
+      "accuracy": 0.6037884767166535,
+      "f1_weighted": 0.6045524359126779
+    }
+  },
+  "models": {
+    "baseline": {
+      "name": "TF\u2013IDF + Logistic (tuned)",
+      "approx_accuracy": 0.6037884767166535,
+      "f1": 0.6045524359126779
+    }
+  }
+}
