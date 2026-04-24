@@ -1,0 +1,14 @@
+torch
+transformers
+scikit-learn
+pandas
+numpy
+fastapi
+uvicorn
+flask
+requests
+pydantic
+psutil
+accelerate
+newspaper3k
+beautifulsoup4
