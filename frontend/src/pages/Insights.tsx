@@ -15,7 +15,7 @@ const steps = [
     icon: FileSearch,
     title: "Ingest",
     body: "Paste text, drop a .txt file, or fetch an article from a public URL. Nothing is stored on our servers by default.",
-    tone: "from-cyan-100/90 to-teal-50/80",
+    tone: "from-sky-100/90 to-blue-50/80",
   },
   {
     icon: Brain,
@@ -34,13 +34,13 @@ const steps = [
 export function Insights() {
   return (
     <div className="space-y-16 pb-8">
-      <section className="relative overflow-hidden rounded-3xl border border-slate-200/90 bg-gradient-to-br from-white via-slate-50/90 to-teal-50/40 p-8 shadow-md sm:p-12">
+      <section className="relative overflow-hidden rounded-3xl border border-slate-200/90 bg-gradient-to-br from-white via-slate-50/90 to-sky-50/40 p-8 shadow-md sm:p-12">
         <div
-          className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-teal-200/40 blur-3xl"
+          className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-sky-200/40 blur-3xl"
           aria-hidden
         />
         <div className="relative max-w-2xl">
-          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-teal-200/80 bg-white/80 px-3 py-1 text-2xs font-semibold uppercase tracking-widest text-teal-800">
+          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-sky-200/80 bg-white/80 px-3 py-1 text-2xs font-semibold uppercase tracking-widest text-sky-800">
             <Sparkles className="h-3.5 w-3.5" />
             Under the hood
           </p>
@@ -120,7 +120,7 @@ export function Insights() {
               Latency and accuracy trade-offs surfaced on the Analytics page
             </li>
             <li className="flex gap-2">
-              <Shield className="mt-0.5 h-4 w-4 shrink-0 text-teal-600" />
+              <Shield className="mt-0.5 h-4 w-4 shrink-0 text-sky-600" />
               Trained on the LIAR / PolitiFact-style benchmark (when you run
               training locally)
             </li>
@@ -128,7 +128,7 @@ export function Insights() {
         </div>
         <div className="glass-panel relative flex flex-col justify-center overflow-hidden p-8 sm:p-10">
           <div
-            className="pointer-events-none absolute inset-0 bg-[conic-gradient(at_100%_0%,rgba(45,212,191,0.2),transparent_50%,rgba(99,102,241,0.12))]"
+            className="pointer-events-none absolute inset-0 bg-[conic-gradient(at_100%_0%,rgba(14,165,233,0.2),transparent_50%,rgba(99,102,241,0.12))]"
             aria-hidden
           />
           <div className="relative text-center">

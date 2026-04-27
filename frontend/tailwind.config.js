@@ -34,9 +34,9 @@ export default {
         "grid-fine": `linear-gradient(rgba(148,163,184,0.12) 1px, transparent 1px),
           linear-gradient(90deg, rgba(148,163,184,0.12) 1px, transparent 1px)`,
         "mesh-hero":
-          "radial-gradient(ellipse 90% 60% at 20% 0%, rgba(45,212,191,0.18), transparent 55%), radial-gradient(ellipse 60% 50% at 100% 0%, rgba(99,102,241,0.10), transparent 50%), radial-gradient(ellipse 50% 40% at 0% 60%, rgba(14,116,144,0.08), transparent 50%)",
+          "radial-gradient(ellipse 90% 60% at 20% 0%, rgba(56,189,248,0.22), transparent 55%), radial-gradient(ellipse 60% 50% at 100% 0%, rgba(59,130,246,0.12), transparent 50%), radial-gradient(ellipse 50% 40% at 0% 60%, rgba(96,165,250,0.1), transparent 50%)",
         "glow-btm":
-          "radial-gradient(ellipse 100% 70% at 50% 100%, rgba(45,212,191,0.10), transparent 50%)",
+          "radial-gradient(ellipse 100% 70% at 50% 100%, rgba(59,130,246,0.12), transparent 50%)",
       },
       backgroundSize: {
         grid: "64px 64px",
@@ -47,7 +47,7 @@ export default {
 ,
         card: "0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -2px rgba(0,0,0,0.04)"
 ,
-        glow: "0 0 0 1px rgba(20, 184, 166, 0.15), 0 4px 20px rgba(20, 184, 166, 0.12)"
+        glow: "0 0 0 1px rgba(14, 165, 233, 0.18), 0 4px 20px rgba(59, 130, 246, 0.12)"
 ,
         "inner-glow": "inset 0 1px 0 0 rgba(255,255,255,0.8)",
       },

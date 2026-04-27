@@ -15,7 +15,7 @@ import { apiHealth, apiMetrics, apiUsage } from "../lib/api";
 import { loadHistory, clearHistory } from "../lib/history";
 import type { HealthResponse, HistoryItem } from "../types";
 
-const PIE_COLORS = ["#0d9488", "#059669", "#d97706", "#e11d48", "#7c3aed", "#2563eb"];
+const PIE_COLORS = ["#0284c7", "#0ea5e9", "#d97706", "#e11d48", "#6366f1", "#2563eb"];
 
 const TIP: CSSProperties = {
   background: "#ffffff",
@@ -96,7 +96,7 @@ export function Analytics() {
   return (
     <div className="space-y-10 sm:space-y-12">
       <section>
-        <p className="mb-2 text-2xs font-bold uppercase tracking-[0.2em] text-teal-700">
+        <p className="mb-2 text-2xs font-bold uppercase tracking-[0.2em] text-sky-800">
           Dashboard
         </p>
         <h1 className="font-display text-3xl font-extrabold text-slate-900 sm:text-4xl">
@@ -125,7 +125,7 @@ export function Analytics() {
             key={c.label}
             className="glass-panel p-4 transition hover:shadow-md"
           >
-            <c.icon className="mb-3 h-5 w-5 text-teal-600" />
+            <c.icon className="mb-3 h-5 w-5 text-sky-600" />
             <p className="text-2xs font-bold uppercase tracking-wider text-slate-500">
               {c.label}
             </p>
@@ -154,7 +154,7 @@ export function Analytics() {
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="glass-panel p-5 sm:p-6">
           <div className="mb-4 flex items-center gap-2">
-            <PieIcon className="h-4 w-4 text-cyan-600" />
+            <PieIcon className="h-4 w-4 text-sky-600" />
             <h2 className="text-sm font-bold text-slate-900 sm:text-base">Model reference (API)</h2>
           </div>
           <div className="h-72 w-full min-w-0 sm:h-80">
@@ -186,8 +186,8 @@ export function Analytics() {
                 />
                 <defs>
                   <linearGradient id={barGradA} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#0d9488" stopOpacity={0.95} />
-                    <stop offset="100%" stopColor="#4f46e5" stopOpacity={0.85} />
+                    <stop offset="0%" stopColor="#0ea5e9" stopOpacity={0.95} />
+                    <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.85} />
                   </linearGradient>
                 </defs>
                 <Bar dataKey="acc" fill={`url(#${barGradA})`} name="acc" radius={[6, 6, 0, 0]} />
@@ -223,8 +223,8 @@ export function Analytics() {
                   <Tooltip contentStyle={TIP} />
                   <defs>
                     <linearGradient id={barGradB} x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#059669" />
-                      <stop offset="100%" stopColor="#0d9488" />
+                      <stop offset="0%" stopColor="#0ea5e9" />
+                      <stop offset="100%" stopColor="#2563eb" />
                     </linearGradient>
                   </defs>
                   <Bar dataKey="value" name="value" fill={`url(#${barGradB})`} radius={[0, 6, 6, 0]} />

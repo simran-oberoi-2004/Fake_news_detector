@@ -121,8 +121,17 @@ export function Home() {
 
   return (
     <div className="space-y-10 sm:space-y-12">
-      <section className="relative text-center sm:text-left">
-        <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-teal-200/80 bg-teal-50/90 px-3 py-1 text-2xs font-bold uppercase tracking-[0.2em] text-teal-800">
+      <section className="grid gap-8 overflow-hidden rounded-3xl border border-sky-200/70 bg-gradient-to-br from-white via-sky-50/30 to-blue-50/50 p-6 shadow-sm sm:grid-cols-2 sm:p-8 sm:gap-10">
+        <div className="relative min-h-[200px] overflow-hidden rounded-2xl ring-1 ring-sky-200/50 sm:min-h-[240px]">
+          <img
+            src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1000&auto=format&fit=crop&q=80"
+            alt="News and media context"
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-sky-900/30 to-transparent" />
+        </div>
+        <div className="text-center sm:text-left">
+        <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-sky-200/80 bg-sky-50/90 px-3 py-1 text-2xs font-bold uppercase tracking-[0.2em] text-sky-800">
           Live analysis
         </p>
         <h1 className="font-display text-3xl font-extrabold leading-[1.1] text-slate-900 sm:text-4xl md:text-5xl">
@@ -150,6 +159,7 @@ export function Home() {
             </div>
           ))}
         </div>
+        </div>
       </section>
 
       <div className="grid items-start gap-6 lg:grid-cols-5 lg:gap-8">
@@ -170,7 +180,7 @@ export function Home() {
                   className={clsx(
                     "flex min-w-0 flex-1 items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold transition",
                     tab === k
-                      ? "bg-gradient-to-r from-teal-500/15 to-cyan-500/10 text-slate-900 ring-1 ring-teal-200/80"
+                      ? "bg-gradient-to-r from-sky-500/15 to-blue-500/10 text-slate-900 ring-1 ring-sky-200/80"
                       : "text-slate-500 hover:bg-slate-100 hover:text-slate-800"
                   )}
                 >
@@ -227,10 +237,10 @@ export function Home() {
                 type="file"
                 accept=".txt,.md,.text"
                 onChange={onFile}
-                className="mx-auto block w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-teal-100 file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-teal-800"
+                className="mx-auto block w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-sky-100 file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-sky-800"
               />
               {fileName && (
-                <p className="mt-3 text-sm font-medium text-teal-800">Loaded: {fileName}</p>
+                <p className="mt-3 text-sm font-medium text-sky-800">Loaded: {fileName}</p>
               )}
               <p className="mt-2 text-2xs text-slate-500">
                 Text stays in your browser until you run analysis
@@ -263,7 +273,7 @@ export function Home() {
                     key={ex}
                     type="button"
                     onClick={() => setText(ex)}
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-2.5 text-left text-2xs leading-snug text-slate-600 transition hover:border-teal-200 hover:bg-white hover:shadow-sm sm:text-xs"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-2.5 text-left text-2xs leading-snug text-slate-600 transition hover:border-sky-200 hover:bg-white hover:shadow-sm sm:text-xs"
                   >
                     {ex}
                   </button>
@@ -280,7 +290,7 @@ export function Home() {
             result && !err ? resultCardClass(result) : "border-slate-200"
           )}
         >
-          <div className="pointer-events-none absolute -right-20 top-0 h-48 w-48 rounded-full bg-teal-200/20 blur-3xl" />
+          <div className="pointer-events-none absolute -right-20 top-0 h-48 w-48 rounded-full bg-sky-200/20 blur-3xl" />
           {err && (
             <div className="flex gap-3 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-left">
               <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-rose-600" />
@@ -289,8 +299,8 @@ export function Home() {
           )}
           {!err && !result && !loading && (
             <div className="flex h-full min-h-[22rem] flex-col items-center justify-center px-4 text-center">
-              <div className="animate-float mb-6 flex h-24 w-24 items-center justify-center rounded-3xl border border-teal-100 bg-gradient-to-br from-teal-100/80 to-cyan-100/50 shadow-sm">
-                <Wand2 className="h-10 w-10 text-teal-600" />
+              <div className="animate-float mb-6 flex h-24 w-24 items-center justify-center rounded-3xl border border-sky-100 bg-gradient-to-br from-sky-100/80 to-blue-100/50 shadow-sm">
+                <Wand2 className="h-10 w-10 text-sky-600" />
               </div>
               <p className="font-display text-lg font-semibold text-slate-800">
                 Awaiting your first run
@@ -304,7 +314,7 @@ export function Home() {
 
           {loading && (
             <div className="flex h-80 flex-col items-center justify-center gap-4 text-slate-500">
-              <div className="h-12 w-12 rounded-full border-2 border-teal-200 border-t-teal-600 animate-spin" />
+              <div className="h-12 w-12 rounded-full border-2 border-sky-200 border-t-sky-600 animate-spin" />
               <p className="text-sm">Processing with your selected model…</p>
             </div>
           )}
@@ -353,7 +363,7 @@ export function Home() {
               <div className="flex flex-wrap gap-6">
                 <div>
                   <p className="text-2xs font-bold uppercase text-slate-500">Model confidence</p>
-                  <p className="font-display text-2xl font-bold text-teal-700">
+                  <p className="font-display text-2xl font-bold text-sky-700">
                     {Math.round((result.confidence || 0) * 100)}%
                   </p>
                 </div>
@@ -381,7 +391,7 @@ export function Home() {
                   </div>
                   <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200/80">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-teal-500 via-cyan-500 to-indigo-500 transition-all duration-700"
+                      className="h-full rounded-full bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 transition-all duration-700"
                       style={{
                         width: `${Math.min(100, Math.max(0, result.credibility_score_0_100))}%`,
                       }}
@@ -402,7 +412,7 @@ export function Home() {
                         key={i}
                         className="flex gap-2 text-2xs text-slate-600 sm:text-xs"
                       >
-                        <span className="text-teal-600">·</span>
+                        <span className="text-sky-600">·</span>
                         {f}
                       </li>
                     ))}

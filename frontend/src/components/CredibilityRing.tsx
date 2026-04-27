@@ -48,8 +48,8 @@ export function CredibilityRing({ value, size = 120, className = "" }: Props) {
             x2="100%"
             y2="0%"
           >
-            <stop offset="0%" stopColor="#0d9488" />
-            <stop offset="100%" stopColor="#6366f1" />
+            <stop offset="0%" stopColor="#0ea5e9" />
+            <stop offset="100%" stopColor="#3b82f6" />
           </linearGradient>
         </defs>
       </svg>
