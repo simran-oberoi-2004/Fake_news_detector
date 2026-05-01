@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "TrueVerse Verification",
+  "version": "1.0",
+  "description": "Instantly verify news credibility with TrueVerse AI.",
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": ["http://127.0.0.1:8000/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Verify with TrueVerse"
+  }
+}
