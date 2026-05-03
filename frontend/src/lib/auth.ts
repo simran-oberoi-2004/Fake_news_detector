@@ -1,17 +1,33 @@
-export const authHeaders = () => {
-  return {
-    "Content-Type": "application/json"
+export type AuthResponse = {
+  error?: string;
+  token?: string;
+  user?: {
+    id: string;
+    email: string;
   };
 };
 
-export const getToken = () => {
-  return localStorage.getItem("token");
-};
+const TOKEN_KEY = "trueverse_token";
 
-export const setToken = (token: string) => {
-  localStorage.setItem("token", token);
-};
+export function saveToken(token: string) {
+  localStorage.setItem(TOKEN_KEY, token);
+}
 
-export const clearToken = () => {
-  localStorage.removeItem("token");
-};
+export function getToken() {
+  return localStorage.getItem(TOKEN_KEY);
+}
+
+export function clearToken() {
+  localStorage.removeItem(TOKEN_KEY);
+}
+
+export async function authHeaders(
+  extraHeaders: Record<string, string> = {}
+): Promise<Record<string, string>> {
+  const token = getToken();
+
+  return {
+    ...extraHeaders,
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+}
