@@ -15,6 +15,7 @@ import { pushHistory } from "../lib/history";
 import { HighlightedText } from "../components/HighlightedText";
 import { CredibilityRing } from "../components/CredibilityRing";
 import { SentenceClaimsPanel } from "../components/SentenceClaimsPanel";
+import { analyzeResult } from "../utils/analyzeResult";
 import clsx from "clsx";
 
 const models: { value: ModelChoice; label: string; hint: string }[] = [
@@ -25,11 +26,17 @@ const models: { value: ModelChoice; label: string; hint: string }[] = [
 ];
 
 const examples = [
-  "Scientists discovered aliens on Mars yesterday.",
-  "The stock market closed higher today on strong earnings reports.",
-  "COVID-19 vaccines underwent large randomized controlled trials before approval.",
+  "BREAKING: A herbal drink cures all diseases instantly with 100% guaranteed results!",
+  "Doctors warn about a new virus spreading rapidly across countries.",
+  "According to a WHO report, regular exercise improves heart health and reduces disease risk.",
   "The moon is made of green cheese, according to leaked documents.",
+  "A new study says sleeping 7 to 8 hours improves memory and focus.",
+  "Secret medicine discovered that permanently removes diabetes without treatment.",
 ];
+
+function getRandomExample() {
+  return examples[Math.floor(Math.random() * examples.length)];
+}
 
 function labelStyles(label?: string) {
   const l = (label || "").toLowerCase();
@@ -168,7 +175,21 @@ export function Home() {
   const previewText = result?.text_preview || result?.full_text || text;
   const highlights = result?.highlight_terms || [];
   const ls = labelStyles(result?.label);
+const trustSafetyInput = [
+  result?.title || "",
+  result?.full_text || "",
+  result?.text_preview || "",
+  text || "",
+  url || "",
+].join(" ");
 
+const trustSafety =
+  result && !result.error && result.label
+    ? analyzeResult(
+        trustSafetyInput,
+        result.label.toLowerCase() === "fake" ? "Fake" : "Real"
+      )
+    : null;
   async function onCopyShareLink() {
     if (!result || result.error) return;
     setShareBusy(true);
@@ -343,6 +364,16 @@ export function Home() {
             </div>
           )}
 
+         {tab === "text" && (
+  <button
+    type="button"
+    onClick={() => setText(getRandomExample())}
+    className="w-full rounded-xl border border-sky-200 bg-sky-50 px-4 py-2.5 text-sm font-semibold text-sky-700 transition hover:bg-sky-100"
+  >
+    🎲 Try Sample News
+  </button>
+)}
+
           <button
             type="button"
             onClick={onAnalyze}
@@ -444,24 +475,121 @@ export function Home() {
                       ls.text
                     )}
                   >
-                    {result.label}
+                    {trustSafety?.risk === "Unknown" ? "Unavailable" : result.label}
                   </p>
                 </div>
-                {result.credibility_score_0_100 != null && (
-                  <div className="shrink-0 self-center sm:self-start">
-                    <CredibilityRing value={result.credibility_score_0_100} size={128} />
-                    <p className="mt-1 text-center text-2xs text-slate-500">confidence</p>
-                  </div>
-                )}
+                {trustSafety && (
+  <div className="shrink-0 self-center sm:self-start">
+    <CredibilityRing value={trustSafety.confidence} size={128} />
+    <p className="mt-1 text-center text-2xs text-slate-500">
+      Confidence Score
+    </p>
+  </div>
+)}
               </div>
 
               <div className="flex flex-wrap gap-6">
                 <div>
-                  <p className="text-2xs font-bold uppercase text-slate-500">Model confidence</p>
+                  <p className="text-2xs font-bold uppercase text-slate-500">Confidence Score</p>
                   <p className="font-display text-2xl font-bold text-sky-700">
-                    {Math.round((result.confidence || 0) * 100)}%
-                  </p>
+  {trustSafety ? trustSafety.confidence : Math.round((result.confidence || 0) * 100)}%
+</p>
                 </div>
+{trustSafety && (
+  <div className="rounded-2xl border border-slate-200 bg-white/85 p-4 sm:p-5">
+    <p className="text-2xs font-bold uppercase tracking-widest text-slate-500">
+      Trust & Safety Review
+    </p>
+
+    {trustSafety.summary && (
+      <div className="mt-4 rounded-xl border border-sky-100 bg-sky-50/70 p-3">
+        <p className="text-2xs font-bold uppercase text-slate-500">
+          Summary
+        </p>
+        <p className="mt-1 text-sm leading-relaxed text-slate-700">
+          {trustSafety.summary}
+        </p>
+      </div>
+    )}
+
+    {trustSafety?.reasons && trustSafety.reasons.length > 0 && (
+      <div className="mt-4 rounded-xl border border-amber-100 bg-amber-50/70 p-3">
+        <p className="text-2xs font-bold uppercase text-slate-500">
+          Why people may believe this
+        </p>
+
+        <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-slate-700">
+          {trustSafety.reasons.map((reason, index) => (
+            <li key={index}>{reason}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <div className="mt-4 grid gap-3 sm:grid-cols-3">
+      <div className="rounded-xl bg-slate-50 p-3">
+        <p className="text-2xs font-bold uppercase text-slate-500">
+          Risk Level
+        </p>
+        <p
+          className={clsx(
+            "mt-1 font-display text-xl font-bold",
+            trustSafety.risk === "High" && "text-rose-700",
+            trustSafety.risk === "Medium" && "text-amber-600",
+            trustSafety.risk === "Low" && "text-emerald-700",
+            trustSafety.risk === "Unknown" && "text-slate-600"
+          )}
+        >
+          {trustSafety.risk === "High" && "🔴 High"}
+          {trustSafety.risk === "Medium" && "🟡 Medium"}
+          {trustSafety.risk === "Low" && "🟢 Low"}
+          {trustSafety.risk === "Unknown" && "⚪ Unknown"}
+        </p>
+      </div>
+
+      <div className="rounded-xl bg-slate-50 p-3">
+        <p className="text-2xs font-bold uppercase text-slate-500">
+          Moderation Decision
+        </p>
+        <p className="mt-1 font-display text-lg font-bold text-sky-700">
+          {trustSafety.action}
+        </p>
+      </div>
+
+      <div className="rounded-xl bg-slate-50 p-3">
+        <p className="text-2xs font-bold uppercase text-slate-500">
+          Confidence Score
+        </p>
+        <p className="mt-1 font-display text-xl font-bold text-indigo-700">
+          {trustSafety.confidence}%
+        </p>
+      </div>
+    </div>
+
+    <div className="mt-4">
+      <p className="text-2xs font-bold uppercase text-slate-500">
+        Flagged Signals
+      </p>
+
+      {trustSafety.flags.length ? (
+        <div className="mt-2 flex flex-wrap gap-2">
+          {trustSafety.flags.map((flag) => (
+            <span
+              key={flag}
+              className="rounded-full bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700 ring-1 ring-rose-100"
+            >
+              🚩 {flag}
+            </span>
+          ))}
+        </div>
+      ) : (
+        <p className="mt-2 text-xs text-slate-500">
+          No major manipulation signals detected.
+        </p>
+      )}
+    </div>
+  </div>
+)}
                 {result.detected_language && (
                   <div>
                     <p className="text-2xs font-bold uppercase text-slate-500">Language</p>
@@ -472,19 +600,27 @@ export function Home() {
                 )}
               </div>
 
-              {result.verdict && (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4 sm:p-5">
-                  <p className="text-2xs font-bold uppercase tracking-widest text-slate-500">
-                    Verdict
-                  </p>
-                  <p className="mt-1 font-display text-lg font-bold text-slate-900 sm:text-xl">
-                    {result.verdict.title}
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                    {result.verdict.description}
-                  </p>
-                </div>
-              )}
+             {result.verdict && (
+  <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4 sm:p-5">
+    <p className="text-2xs font-bold uppercase tracking-widest text-slate-500">
+      Verdict
+    </p>
+    <p className="mt-1 font-display text-lg font-bold text-slate-900 sm:text-xl">
+      {trustSafety?.risk === "Unknown"
+  ? "Content could not be analyzed"
+  : result.model === "hybrid_api_override"
+  ? "Verified by external fact-check sources"
+  : result.verdict.title}
+    </p>
+    <p className="mt-2 text-sm leading-relaxed text-slate-600">
+      {trustSafety?.risk === "Unknown"
+  ? "The article content could not be fetched properly, so no fake/real decision was made."
+  : result.model === "hybrid_api_override"
+  ? "This claim has been verified using trusted external fact-checking sources, which determined it to be false."
+  : result.verdict.description}
+    </p>
+  </div>
+)}
 
               {result.credibility_score_0_100 != null && (
                 <div>

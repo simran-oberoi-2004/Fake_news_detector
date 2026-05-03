@@ -10,6 +10,8 @@ import { AboutProject } from "./pages/AboutProject";
 import { AuthPage } from "./pages/AuthPage";
 import { HistoryPage } from "./pages/HistoryPage";
 import { SharedResultPage } from "./pages/SharedResultPage";
+import { Quiz } from "./pages/Quiz";
+
 
 export function App() {
   return (
@@ -25,6 +27,7 @@ export function App() {
         <Route path="auth" element={<AuthPage />} />
         <Route path="history" element={<HistoryPage />} />
         <Route path="result/:shareId" element={<SharedResultPage />} />
+        <Route path="quiz" element={<Quiz />} />
       </Route>
     </Routes>
   );

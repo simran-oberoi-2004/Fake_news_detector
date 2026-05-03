@@ -2,6 +2,8 @@ import os
 import sys
 from typing import Optional
 
+from sklearn import base
+
 # Support `uvicorn app.api:app` from repo root: load scraper/ and models next to this file, not the shell CWD
 _APP_DIR = os.path.dirname(os.path.abspath(__file__))
 if _APP_DIR not in sys.path:
@@ -30,6 +32,7 @@ from sentence_claims import analyze_sentence_claims
 from auth_store import create_user, login_user, parse_token
 from result_store import save_analysis, list_history, delete_history, get_share_result
 from language_router import detect_language, pick_model_for_language
+from known_facts import check_known_facts
 
 app = FastAPI(title="TRUEVERSE Fake News API", version="1.0.0")
 
@@ -408,7 +411,7 @@ def extract_key_claims(text: str, max_claims: int = 5) -> list:
     seen = set()
     for raw in parts:
         c = " ".join((raw or "").split()).strip()
-        if len(c) < 35:
+        if len(c) < 10:
             continue
         key = c.lower()
         if key in seen:
@@ -422,8 +425,49 @@ def extract_key_claims(text: str, max_claims: int = 5) -> list:
 
 def fetch_google_fact_checks(claims: list) -> list:
     api_key = os.environ.get("GOOGLE_FACTCHECK_API_KEY", "").strip()
+
+    print("API KEY LOADED:", api_key[:5])
+    print("Calling Google Fact Check API...")
+
     if not api_key:
         return []
+
+    results = []
+
+    for claim in claims:
+        try:
+            params = {
+                "query": claim,
+                "languageCode": "en",
+                "pageSize": 3
+            }
+
+            response = requests.get(
+                GOOGLE_FACTCHECK_ENDPOINT,
+                params=params,
+                headers={"X-Goog-Api-Key": api_key},
+                timeout=5
+            )
+
+            if response.status_code != 200:
+                continue
+
+            data = response.json()
+
+            for item in data.get("claims", []):
+                for review in item.get("claimReview", []):
+                    results.append({
+                        "text": item.get("text"),
+                        "source_name": review.get("publisher", {}).get("name"),
+                        "rating": review.get("textualRating"),
+                        "url": review.get("url")
+                    })
+
+        except Exception as e:
+            print("Fact check API error:", e)
+            continue
+
+    return results
 
     out = []
     for claim in claims:
@@ -468,10 +512,46 @@ def fetch_google_fact_checks(claims: list) -> list:
 
 def attach_fact_checks(base: dict, text: str) -> dict:
     claims = extract_key_claims(text, max_claims=5)
+    fact_checks = fetch_google_fact_checks(claims)
+
     base["claims_extracted"] = claims
-    base["fact_checks"] = fetch_google_fact_checks(claims)
+    base["fact_checks"] = fact_checks
     base["fact_check_provider"] = "google_fact_check_tools"
     base["fact_check_status"] = "configured" if os.environ.get("GOOGLE_FACTCHECK_API_KEY") else "disabled_no_api_key"
+
+    # 🔥 SAFE HYBRID OVERRIDE LOGIC
+    if fact_checks:
+        false_hits = 0
+        true_hits = 0
+
+        for fc in fact_checks:
+            rating = (fc.get("rating") or "").lower()
+
+            # strong false signals
+            if any(w in rating for w in ["false", "fake", "incorrect"]):
+                false_hits += 1
+
+            # strong true signals
+            if any(w in rating for w in ["true", "correct", "accurate"]):
+                true_hits += 1
+
+        # apply override ONLY if strong agreement
+        if false_hits >= 2 and false_hits > true_hits:
+            base["risk"] = "High"
+            base["action"] = "Flag Content"
+            base["label"] = "Fake"
+            base["confidence"] = 0.9
+            base["model"] = "hybrid_api_override"
+            base["override_reason"] = "Multiple trusted fact-checks marked this claim as false"
+
+        elif true_hits >= 2 and true_hits > false_hits:
+            base["risk"] = "Low"
+            base["action"] = "Allow"
+            base["label"] = "Real"
+            base["confidence"] = 0.9
+            base["model"] = "hybrid_api_override"
+            base["override_reason"] = "Multiple trusted fact-checks verified this claim"
+
     return base
 
 
@@ -509,6 +589,30 @@ def predict(request: TextRequest, authorization: Optional[str] = Header(default=
     model_choice, language_model = pick_model_for_language(detected_language, request.model)
     if not text:
         return {"error": "Empty text provided"}
+    
+    known = check_known_facts(text)
+
+    if known:
+        result = {
+            "label": known["label"],
+            "confidence": known["confidence"],
+            "model": "known_facts_layer",
+            "risk": "Low" if known["label"] == "Real" else "High",
+            "action": "Allow" if known["label"] == "Real" else "Flag Content",
+            "fact_source": known["source"],
+            "fact_explanation": known["explanation"],
+            "fact_last_updated": known["last_updated"],
+        }
+
+        result = attach_explanation(result, text)
+        result = attach_sentence_claims(result, text, model_choice)
+        result["detected_language"] = detected_language
+        result["language_model"] = language_model
+
+        mname = str(result.get("model", "unknown"))
+        bump_stats(mname, result.get("verdict", {}).get("key", "unknown"))
+
+        return maybe_attach_user_storage(result, "text", text[:1200], authorization)    
 
     result = predict_for_text(text, model_choice)
     if result.get("error"):
