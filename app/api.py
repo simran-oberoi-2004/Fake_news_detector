@@ -19,8 +19,8 @@ except ImportError:
 from fastapi import FastAPI, UploadFile, File, Form, Header
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from transformers import BertTokenizer, BertModel
-import torch
+#from transformers import BertTokenizer, BertModel
+#import torch
 import numpy as np
 import pickle
 import json
@@ -284,6 +284,8 @@ def load_baseline_model():
 
 def load_hybrid_model():
     global hybrid_model, bert_tokenizer, bert_model
+    print("Hybrid model disabled for Render deployment")
+    return False
 
     if (
         os.path.exists(os.path.join(_MODELS_DIR, "hybrid_model.pkl"))
@@ -323,8 +325,7 @@ def predict_with_baseline(text):
 
 
 def predict_with_hybrid(text):
-    if hybrid_model is None or bert_tokenizer is None or bert_model is None:
-        return None
+    return None
 
     bert_model.eval()
     with torch.no_grad():
@@ -372,12 +373,13 @@ def predict_for_text(text: str, model_choice: str):
     if model_choice == "hybrid":
         result = predict_with_hybrid(text)
         if result is None:
-            return {"error": "Hybrid model not available"}
+            result = predict_with_keywords(text)
     elif model_choice == "baseline":
         result = predict_with_baseline(text)
         if result is None:
-            return {"error": "Baseline model not available"}
-        result["model"] = "baseline"
+            result = predict_with_keywords(text)
+        else:
+            result["model"] = "baseline"
     elif model_choice == "keyword":
         result = predict_with_keywords(text)
     else:
