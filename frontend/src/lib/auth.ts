@@ -13,6 +13,10 @@ export function saveToken(token: string) {
   localStorage.setItem(TOKEN_KEY, token);
 }
 
+export function setToken(token: string) {
+  saveToken(token);
+}
+
 export function getToken() {
   return localStorage.getItem(TOKEN_KEY);
 }
