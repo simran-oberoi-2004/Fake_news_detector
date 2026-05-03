@@ -155,7 +155,7 @@ export function Quiz() {
         {showResult ? (
           <div>
             <h3 className="text-xl font-semibold mb-2">
-              Your Score: {score}/10
+              Your Score: {score} out of {questions.length}
             </h3>
 
             <p className="mb-4">
