@@ -45,6 +45,7 @@ app.add_middleware(
         "http://127.0.0.1:5001",
         "http://localhost:4173",
         "http://127.0.0.1:4173",
+        "https://fake-news-detector-neon-nu.vercel.app/",
     ],
     allow_credentials=True,
     allow_methods=["*"],
