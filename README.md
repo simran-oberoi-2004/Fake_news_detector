@@ -1,124 +1,226 @@
-# 🔍 TrueVerse: Fake News Detection System
+# 🚀 Trueverse: AI-Based Fake News Detection System
 
-A comprehensive, AI-powered platform that classifies news statements, URLs, and PDFs as **real** or **fake** using advanced NLP models. Built with a modern React frontend, FastAPI backend, MongoDB integration, and a custom Chrome Browser extension!
+Trueverse is an AI-powered fake news detection platform that analyzes content and classifies it as **🟢 Real**, **🔴 Fake**, or **🟡 Uncertain**.
+
+It combines:
+- 🤖 Machine Learning
+- 🧠 NLP (Natural Language Processing)
+- 🌐 Google Fact Check API
+- 📚 Known Facts Layer
+- 🔍 Sentence-level analysis
+- 🛡️ Trust & Safety review
 
 ---
 
-## ⚡ Quick Start (5-Minute Setup)
+## ✨ Key Features
 
-### **1️⃣ Clone & Install Dependencies**
-```bash
-git clone https://github.com/BharathTT/FakeNewsDetectorUsingBert.git
-cd FakeNewsDetectorUsingBert
+- 📝 Text-based fake news detection  
+- 🔗 URL/news article analysis  
+- 📄 PDF upload & analysis  
+- 🧠 Hybrid AI model (ML + rules)  
+- 📚 Known Facts Layer (handles general knowledge correctly)  
+- 🌐 External fact-check verification  
+- 📊 Confidence score & explanation  
+- 🔍 Sentence-level claim analysis  
+- 🚨 Risk level & moderation decision  
+- 💾 History & saved results  
+- 🔗 Shareable results  
+- 🎯 Interactive quiz/game for users  
+- 🎨 Clean and modern UI  
 
-# Setup Python Virtual Environment for Backend
-python -m venv venv
+---
 
-# Activate Virtual Environment:
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
+## 🛠️ Tech Stack
 
-# Install Python dependencies
-pip install -r requirements.txt
-```
+### 💻 Frontend
+- React.js  
+- TypeScript  
+- Vite  
+- Tailwind CSS  
+- React Router  
 
-### **2️⃣ Configure Environment (.env)**
-In the `app/` folder, create a `.env` file with your credentials:
-```env
-MONGO_URI=mongodb+srv://<user>:<password>@cluster0...
-MONGO_DB_NAME=trueverse
-GOOGLE_FACTCHECK_API_KEY=your_google_api_key
-```
+### ⚙️ Backend
+- Python  
+- FastAPI  
+- Uvicorn  
+- Scikit-learn  
+- Transformers  
+- spaCy  
+- PyMuPDF  
+- Requests  
 
-### **3️⃣ Run the System**
-Open **two terminals**:
+---
 
-**Terminal 1 (Backend - FastAPI):**
-```bash
+## 📁 Project Structure
+
+
+Trueverse-Ai-FakenewsDetector/
+│
+├── app/
+│ ├── api.py
+│ ├── known_facts.py
+│ ├── scraper.py
+│ ├── sentence_claims.py
+│ ├── language_router.py
+│ ├── auth_store.py
+│ ├── result_store.py
+│ ├── models/
+│ └── .env
+│
+├── frontend/
+│ ├── src/
+│ ├── package.json
+│ └── vite.config.ts
+│
+└── README.md
+
+
+---
+
+## ⚙️ How the System Works
+
+
+User Input
+↓
+Text / URL / PDF Processing
+↓
+Language Detection 🌐
+↓
+Model Selection 🤖
+↓
+Prediction Engine 🧠
+↓
+Known Facts Layer 📚
+↓
+Google Fact Check API 🌍
+↓
+Sentence Analysis 🔍
+↓
+Trust & Safety Review 🛡️
+↓
+Final Result 🎯
+
+
+---
+
+## 🧩 Core Modules
+
+### 🤖 Prediction Engine
+Classifies content using hybrid ML + rule-based approach.
+
+### 📚 Known Facts Layer (USP 🔥)
+Handles general knowledge queries correctly:
+- Presidents, PMs, facts
+- Prevents wrong "Fake" outputs
+
+### 🌐 Google Fact Check API
+Fetches real-world verification from trusted sources.
+
+### 🛡️ Trust & Safety Layer
+Analyzes:
+- Emotional manipulation  
+- Exaggeration  
+- Fear-based content  
+- Source credibility  
+
+### 🔍 Sentence-Level Analysis
+Breaks long text → analyzes each sentence → improves accuracy.
+
+---
+
+## ⚡ Setup Instructions
+
+### 1️⃣ Clone Repository
+
+'''bash
+git clone https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
+cd Trueverse-Ai-FakenewsDetector
+2️⃣ Backend Setup
 cd app
-# Start the backend server
-python -m uvicorn api:app --host 127.0.0.1 --port 8000 --reload
-```
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
 
-**Terminal 2 (Frontend - React/Vite):**
-```bash
+Create .env file:
+
+GOOGLE_FACTCHECK_API_KEY=your_api_key_here
+
+Run backend:
+
+python -m uvicorn api:app --reload
+
+👉 Runs at:
+
+http://127.0.0.1:8000
+
+👉 API Docs:
+
+http://127.0.0.1:8000/docs
+3️⃣ Frontend Setup
 cd frontend
-# Install node modules and start frontend
 npm install
-npx vite --host 127.0.0.1 --port 5173
-```
-Visit **http://127.0.0.1:5173** in your browser!
+npx vite
 
----
+👉 Runs at:
 
-## ✨ Amazing Features
+http://localhost:5173
+🧪 Sample Inputs
+🔴 Fake News
+BREAKING: Scientists discovered a miracle cure that eliminates all diseases instantly!
 
-### 🧩 **TrueVerse Chrome Extension**
-Verify news anywhere on the web instantly without opening the app!
-1. Open `chrome://extensions/` in your browser and enable **Developer Mode**.
-2. Click **Load unpacked** and select the `extension/` folder in this repo.
-3. Highlight any text on any website, click the "TV" icon in your toolbar, and get an instant AI credibility verdict!
+👉 Output:
 
-### 🧠 **Explainable AI Models**
-- **Hybrid Model**: BERT embeddings + Random Forest classifier.
-- **Google Fact Check API**: Automatically cross-references claims with global fact-checkers.
-- **Stylistic Analysis**: Detects sensationalism, hedging, and emotional manipulation in writing.
-- **Sentence-level Claims**: Breaks down long articles to analyze specific claims.
+High risk 🚨
+Fake / Misleading
+📚 Known Fact
+Donald Trump president of USA
 
-### 🌐 **Modern Architecture**
-- **React + Vite Frontend**: Beautiful, dark-mode glassmorphism UI.
-- **MongoDB Atlas Auth**: Secure user accounts, login, and verification history.
-- **PDF Forensics**: Upload `.pdf` documents to automatically extract and verify text using PyMuPDF.
-- **URL Scraping**: Paste any news link (BBC, CNN, NDTV) and the AI reads and analyzes the article for you.
+👉 Output:
 
----
+Real ✅
+Known Facts Layer
+🌐 API Fact Check
+COVID vaccines contain microchips
 
-## 🏗️ Architecture Stack
+👉 Output:
 
-```plaintext
-┌─────────────────────────┐     ┌───────────────────────┐     ┌────────────────────────┐
-│     Frontend UI         │     │     FastAPI Backend   │     │    External APIs       │
-│  - React.js / Vite      │ ──▶ │  - Text & URL parsing │ ──▶ │  - Google Fact Check   │
-│  - Chrome Extension     │     │  - PDF Extraction     │     │  - MongoDB Atlas Auth  │
-└─────────────────────────┘     └───────────────────────┘     └────────────────────────┘
-                                            │
-                                            ▼
-                                ┌───────────────────────┐
-                                │       AI Engine       │
-                                │  - BERT Transformer   │
-                                │  - Hybrid Classifiers │
-                                └───────────────────────┘
-```
+Fake ❌
+Verified by external sources
+🔗 API Endpoints
+Endpoint	Method	Description
+/predict	POST	Analyze text
+/predict_url	POST	Analyze URL
+/predict_pdf	POST	Analyze PDF
+/extract_pdf_text	POST	Extract PDF text
+/health	GET	Server status
+/history	GET	User history
+/share/create	POST	Share result
+/result/{id}	GET	View shared result
+🏆 Why Trueverse is Unique
 
----
+✨ Not just a classifier — a complete system
 
-## 📊 The LIAR Dataset
-The AI is trained on the benchmark LIAR Dataset containing 12,836 human-labeled political statements from PolitiFact.
-* **Train**: 10,269 | **Val**: 1,284 | **Test**: 1,283
+Hybrid AI + rule-based logic
+Real-time fact-check APIs
+Known facts correction layer
+Explainable results (XAI)
+Sentence-level analysis
+Trust & Safety scoring
+Multi-input support
+⚠️ Limitations
+Not 100% accurate
+API dependent
+Needs updates for new facts
+Complex sarcasm may fail
+🚀 Future Scope
+Real-time news scraping
+Better ML models
+Multilingual support
+Deepfake detection
+Browser extension
+Auto-updating knowledge base
 
-*(To train the models yourself from scratch, simply run `python train.py` inside the `app/` directory).*
 
----
+👩‍💻 Author
 
-## 💻 Usage & API Examples
-
-You can test the backend API directly using cURL:
-
-```bash
-# Test Text Analysis
-curl -X POST "http://127.0.0.1:8000/predict" \
-     -H "Content-Type: application/json" \
-     -d '{"text": "Breaking news: Aliens found on Mars!", "model": "hybrid"}'
-
-# Test URL Analysis
-curl -X POST "http://127.0.0.1:8000/predict_url" \
-     -H "Content-Type: application/json" \
-     -d '{"url": "https://www.bbc.com/news/...", "model": "auto"}'
-```
-
----
-
-## 🤝 Contributing
-Contributions are always welcome! Feel free to open an issue or submit a pull request.
+Simran Oberoi
