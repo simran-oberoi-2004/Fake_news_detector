@@ -274,34 +274,10 @@ def load_baseline_model():
         print("Baseline model files not found")
         return False
 
-
 def load_hybrid_model():
     global hybrid_model, bert_tokenizer, bert_model
     print("Hybrid model disabled for Render deployment")
     return False
-
-    if (
-        os.path.exists(os.path.join(_MODELS_DIR, "hybrid_model.pkl"))
-        and os.path.exists(os.path.join(_MODELS_DIR, "bert_tokenizer"))
-        and os.path.exists(os.path.join(_MODELS_DIR, "bert_embedder"))
-    ):def predict_with_hybrid(text):
-        try:
-            with open(os.path.join(_MODELS_DIR, "hybrid_model.pkl"), "rb") as f:
-                hybrid_model = pickle.load(f)
-            bert_tokenizer = BertTokenizer.from_pretrained(
-                os.path.join(_MODELS_DIR, "bert_tokenizer")
-            )
-            bert_model = BertModel.from_pretrained(
-                os.path.join(_MODELS_DIR, "bert_embedder")
-            )
-            print("Hybrid model loaded successfully")
-            return True
-        except Exception as e:
-            print(f"Failed to load hybrid model: {e}")
-            return False
-    else:
-        print("Hybrid model files not found")
-        return False
 
 
 def predict_with_baseline(text):
