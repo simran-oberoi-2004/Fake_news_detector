@@ -38,16 +38,8 @@ app = FastAPI(title="TRUEVERSE Fake News API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:5001",
-        "http://127.0.0.1:5001",
-        "http://localhost:4173",
-        "http://127.0.0.1:4173",
-        "https://fake-news-detector-neon-nu.vercel.app/",
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -292,7 +284,7 @@ def load_hybrid_model():
         os.path.exists(os.path.join(_MODELS_DIR, "hybrid_model.pkl"))
         and os.path.exists(os.path.join(_MODELS_DIR, "bert_tokenizer"))
         and os.path.exists(os.path.join(_MODELS_DIR, "bert_embedder"))
-    ):
+    ):def predict_with_hybrid(text):
         try:
             with open(os.path.join(_MODELS_DIR, "hybrid_model.pkl"), "rb") as f:
                 hybrid_model = pickle.load(f)
